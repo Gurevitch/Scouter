@@ -19,3 +19,9 @@ func (s *PlayerService) CreatePlayers(player *models.Player) error {
 	// Ensure you are returning any error that might occur while creating the player
 	return s.repo.CreatePlayer(player)
 }
+func (s *PlayerService) GetPlayerByID(id uint) (*models.Player, error) {
+	return s.repo.GetPlayerByID(id)
+}
+func (s *PlayerService) HandlePlayerInsert(req models.Player) error {
+	return s.repo.HandlePlayerInsert(req)
+}

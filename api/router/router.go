@@ -11,7 +11,7 @@ func SetupRouter(PlayerHandler *handler.PlayerHandler, teamHandler *handler.Team
 	r := mux.NewRouter()
 
 	// User routes
-	r.HandleFunc("/register", PlayerHandler.HandlePlayerInsert).Methods("POST")
+	r.HandleFunc("/register", PlayerHandler.HTTPHandlePlayerInsert).Methods("POST")
 
 	// Team routes
 	r.HandleFunc("/teams", teamHandler.GetTeams).Methods("GET")

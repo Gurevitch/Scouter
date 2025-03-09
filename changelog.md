@@ -45,3 +45,6 @@
 2.create simple front page and display
 3.create a code block and understand of the design pattern
 4.find a way to save the entire league
+
+
+https://www.capology.com/club/tottenham/salaries/

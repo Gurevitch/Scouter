@@ -55,7 +55,7 @@ func MigrateDB() {
 		log.Fatal("❌ Database connection is not initialized")
 	}
 
-	err := DB.AutoMigrate(&models.Team{}, &models.Player{})
+	err := DB.AutoMigrate(&models.Team{}, &models.Player{}, &models.SeasonStats{})
 	if err != nil {
 		log.Fatalf("❌ Failed to migrate database: %v", err)
 	}
