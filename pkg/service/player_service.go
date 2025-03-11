@@ -9,8 +9,8 @@ type PlayerService struct {
 	repo *repository.PlayerRepository
 }
 
-// NewPlayerHandler initializes a PlayerHandler
-func NewPlayerHandler(playerService *repository.PlayerRepository) *PlayerService {
+// NewPlayerService initializes a PlayerHandler
+func NewPlayerService(playerService *repository.PlayerRepository) *PlayerService {
 	return &PlayerService{repo: playerService}
 }
 
@@ -24,4 +24,8 @@ func (s *PlayerService) GetPlayerByID(id uint) (*models.Player, error) {
 }
 func (s *PlayerService) HandlePlayerInsert(req models.Player) error {
 	return s.repo.HandlePlayerInsert(req)
+}
+func (s *PlayerService) GetPlayerStats(playerID string) (playerStats models.Player, err error) {
+	return s.repo.GetPlayerStats(playerID) // Pass pointer to playerStats
+
 }

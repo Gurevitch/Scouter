@@ -36,6 +36,16 @@
 │── 📂 test                     # Unit & integration tests
 │   └── user_service_test.go
 │
+│── 📂 frontend                 # React frontend
+│   ├── 📂 src                  # React app source code
+│   │   ├── 📂 components       # React components (e.g., PlayerStats, Header, etc.)
+│   │   ├── 📂 pages            # React pages (e.g., Home, PlayerPage, etc.)
+│   │   ├── App.js              # Main React app component
+│   │   ├── index.js            # Entry point for React app
+│   │   └── ...
+│   ├── package.json            # Frontend dependencies & scripts
+│   └── .env                    # React environment variables (API URLs, etc.)
+│
 │── go.mod                      # Go module file
 │── go.sum                      # Go dependencies
 

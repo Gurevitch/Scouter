@@ -20,7 +20,7 @@ func main() {
 	playerRepo := repository.NewPlayerRepository(database)
 
 	// Initialize service
-	playerService := service.NewPlayerHandler(playerRepo)
+	playerService := service.NewPlayerService(playerRepo)
 
 	// Initialize handler
 	playerHandler := handler.NewPlayerHandler(playerService)
@@ -32,10 +32,16 @@ func main() {
 
 	// Initialize handler
 	teamHandler := handler.NewTeamHandler(TeamService)
+
 	// Setup router
 	r := router.SetupRouter(playerHandler, teamHandler)
 
-	// Start server
+	// Serve React app (static files)
+	// Ensure the path is correct (adjust based on where your build directory is located)
+	fs := http.FileServer(http.Dir("./frontend/build"))
+	http.Handle("/", fs) // Serve static files from the build directory
+
+	// Start the server on port 8080
 	log.Println("🚀 Server is running on port 8080")
 	log.Fatal(http.ListenAndServe(":8080", r))
 }

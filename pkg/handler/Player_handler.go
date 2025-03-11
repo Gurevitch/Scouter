@@ -7,6 +7,7 @@ import (
 
 	"bitbucket.org/Local/Scouter/pkg/models"
 	"bitbucket.org/Local/Scouter/pkg/service"
+	"github.com/gorilla/mux"
 )
 
 type PlayerHandler struct {
@@ -41,4 +42,21 @@ func (h *PlayerHandler) HTTPHandlePlayerInsert(w http.ResponseWriter, r *http.Re
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	w.Write([]byte(`{"message": "Player inserted successfully"}`))
+}
+
+// GetPlayerStats fetches the stats of a player
+func (h *PlayerHandler) GetPlayerStats(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	playerID := vars["id"]
+
+	// Fetch the stats for the player
+	stats, err := h.playerService.GetPlayerStats(playerID)
+	if err != nil {
+		http.Error(w, "Player stats not found", http.StatusNotFound)
+		return
+	}
+
+	// Send back the stats in the response
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(stats)
 }

@@ -107,3 +107,13 @@ func (r *PlayerRepository) HandlePlayerInsert(req models.Player) error {
 
 	return nil
 }
+
+// GetPlayerStats fetches both player details and stats
+func (r *PlayerRepository) GetPlayerStats(playerID string) (models.Player, error) {
+	var player models.Player
+
+	// Query the database for player details and preload SeasonStats
+	err := r.db.Where("id = ?", playerID).Preload("SeasonStats").First(&player).Error
+
+	return player, err
+}
