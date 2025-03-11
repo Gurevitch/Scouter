@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -11,37 +12,39 @@ import (
 	"bitbucket.org/Local/Scouter/pkg/service"
 )
 
+const (
+	port = "8080"
+)
+
 func main() {
 	// Connect to database
 	database := db.ConnectDB()
 
 	db.MigrateDB()
-	// Initialize repository
+	// Initialize repository for player
 	playerRepo := repository.NewPlayerRepository(database)
 
-	// Initialize service
+	// Initialize service for player
 	playerService := service.NewPlayerService(playerRepo)
 
-	// Initialize handler
+	// Initialize handler for player
 	playerHandler := handler.NewPlayerHandler(playerService)
-	// Initialize repository
-	TeamRepo := repository.NewTeamRepository(database)
 
-	// Initialize service
-	TeamService := service.NewTeamService(TeamRepo)
+	// Initialize repository for team
+	teamRepo := repository.NewTeamRepository(database)
 
-	// Initialize handler
-	teamHandler := handler.NewTeamHandler(TeamService)
+	// Initialize service for team
+	teamService := service.NewTeamService(teamRepo)
 
-	// Setup router
+	// Initialize handler for team
+	teamHandler := handler.NewTeamHandler(teamService)
+
+	// Initialize router with player and team handlers
 	r := router.SetupRouter(playerHandler, teamHandler)
 
-	// Serve React app (static files)
-	// Ensure the path is correct (adjust based on where your build directory is located)
-	fs := http.FileServer(http.Dir("./frontend/build"))
-	http.Handle("/", fs) // Serve static files from the build directory
-
 	// Start the server on port 8080
-	log.Println("🚀 Server is running on port 8080")
-	log.Fatal(http.ListenAndServe(":8080", r))
+	fmt.Println("🚀 Server is running on port 8080")
+	if err := http.ListenAndServe(":"+port, r); err != nil {
+		log.Fatal("Error starting server:", err)
+	}
 }
